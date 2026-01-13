@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pRadar - Singapore Property Tracker</title>
+    <meta name="description" content="Track Singapore property prices, view transaction history, and analyze price trends. Your smart property companion.">
+    <meta name="keywords" content="Singapore, property, real estate, condo, apartment, price tracker, rental, investment">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="pRadar - Singapore Property Tracker">
+    <meta property="og:description" content="Track Singapore property prices, view transaction history, and analyze price trends.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="og-image.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0056b3;
+            --secondary: #34C759;
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--white);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 1200px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 24px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 122, 255, 0.3);
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero .tagline {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        
+        /* Video Container */
+        .video-container {
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto 40px;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+            background: #000;
+            position: relative;
+        }
+        
+        .phone-frame {
+            position: relative;
+            padding-top: 6px;
+            background: #1a1a1a;
+            border-radius: 40px;
+            border: 3px solid #333;
+        }
+        
+        .phone-notch {
+            width: 120px;
+            height: 28px;
+            background: #1a1a1a;
+            margin: 0 auto 6px;
+            border-radius: 0 0 16px 16px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .video-container video {
+            width: 100%;
+            display: block;
+            border-radius: 0 0 36px 36px;
+        }
+        
+        /* App Store Button */
+        .app-store-btn {
+            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .app-store-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .app-store-btn img {
+            height: 54px;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 20px;
+            background: var(--bg-light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .section-title p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 28px;
+        }
+        
+        .feature-icon.blue { background: linear-gradient(135deg, #007AFF, #00c6ff); }
+        .feature-icon.green { background: linear-gradient(135deg, #34C759, #30d158); }
+        .feature-icon.purple { background: linear-gradient(135deg, #AF52DE, #bf5af2); }
+        .feature-icon.orange { background: linear-gradient(135deg, #FF9500, #ffcc00); }
+        .feature-icon.red { background: linear-gradient(135deg, #FF3B30, #ff6b6b); }
+        .feature-icon.teal { background: linear-gradient(135deg, #5AC8FA, #64d2ff); }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Data Source Section */
+        .data-source {
+            padding: 80px 20px;
+            background: var(--white);
+            text-align: center;
+        }
+        
+        .data-source .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-bottom: 24px;
+        }
+        
+        .data-source .badge span {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        
+        .data-source h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .data-source p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #007AFF 0%, #00c6ff 100%);
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        footer a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-links {
+            margin-bottom: 20px;
+        }
+        
+        .copyright {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .video-container {
+                max-width: 300px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <img src="logo.png" alt="pRadar Logo" class="logo">
+            <h1>p<span>Radar</span></h1>
+            <p class="tagline">Singapore Property Radar</p>
+            
+            <!-- Video Preview -->
+            <div class="video-container">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <video autoplay loop muted playsinline>
+                        <source src="intro_output_appstore.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+            
+            <!-- App Store Button -->
+            <a href="#" class="app-store-btn">
+                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store">
+            </a>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Powerful Features</h2>
+                <p>Everything you need to track Singapore's property market, all in one app.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <span>🗺️</span>
+                    </div>
+                    <h3>Interactive Map</h3>
+                    <p>Explore properties on an interactive map. Find nearby projects using your current location and discover opportunities in any neighborhood.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon green">
+                        <span>🔍</span>
+                    </div>
+                    <h3>Smart Search</h3>
+                    <p>Search thousands of private residential projects across Singapore instantly. Find exactly what you're looking for with our powerful search.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon purple">
+                        <span>📊</span>
+                    </div>
+                    <h3>Price Trends</h3>
+                    <p>Visualize price trends with interactive charts. Track how sale prices and rental rates have changed over time for any project.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon orange">
+                        <span>📋</span>
+                    </div>
+                    <h3>Transaction History</h3>
+                    <p>Access complete transaction records including sale prices, rental rates, unit sizes, and price per square foot for informed decisions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon red">
+                        <span>❤️</span>
+                    </div>
+                    <h3>Favorites</h3>
+                    <p>Save projects you're interested in to your favorites list. Keep track of properties you're monitoring and access them quickly anytime.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon teal">
+                        <span>🌙</span>
+                    </div>
+                    <h3>Dark Mode</h3>
+                    <p>Easy on the eyes with full dark mode support. Switch between light, dark, or system appearance based on your preference.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Data Source Section -->
+    <section class="data-source">
+        <div class="container">
+            <div class="badge">
+                <span>✓</span>
+                <span>Official Data Source</span>
+            </div>
+            <h2>Reliable & Accurate Data</h2>
+            <p>All transaction data is sourced from Singapore's Urban Redevelopment Authority (URA), ensuring you get accurate and up-to-date information for your property research.</p>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Start Tracking Today</h2>
+            <p>Download pRadar and make smarter property decisions.</p>
+            <a href="#" class="app-store-btn">
+                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
+            </a>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="mailto:support@example.com">Support</a>
+        </div>
+        <p class="copyright">© 2025 pRadar. All rights reserved.</p>
+    </footer>
+</body>
+</html>
